@@ -36,7 +36,7 @@ public class ReportsIndexServlet extends HttpServlet {
 
         EntityManager em = DBUtil.createEntityManager();
 
-        // ページ番号を取得
+        // 開くページ番号を取得
         int page;
         try{
             page = Integer.parseInt(request.getParameter("page"));
@@ -44,12 +44,13 @@ public class ReportsIndexServlet extends HttpServlet {
             page = 1;
         }
 
-
+        // 最大件数と開始位置を指定して取得
         List<Report> reports = em.createNamedQuery("getAllReports",Report.class)
                                 .setFirstResult(15 * (page -1))
                                 .setMaxResults(15)
                                 .getResultList();
 
+        // 全件数を取得
         long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
                             .getSingleResult();
 
